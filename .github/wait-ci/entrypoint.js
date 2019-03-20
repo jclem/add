@@ -58,7 +58,6 @@ async function pollCheckSuites() {
 }
 
 function listCheckSuites() {
-  tools.log.debug(tools.context.payload)
   return tools.github.graphql(
     `query checkSuites($owner: String!, $repo: String!, $expression: String!) {
     repository(owner: $owner, name: $repo) {
