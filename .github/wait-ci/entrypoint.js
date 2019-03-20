@@ -2,7 +2,7 @@ const {Toolkit} = require('actions-toolkit')
 const tools = new Toolkit()
 
 const wait = (ms = 1000) => new Promise(res => setTimeout(res, ms))
-const checkSuiteSlug = tools.arguments[0]
+const checkSuiteSlug = tools.arguments._[0]
 
 if (!checkSuiteSlug) {
   throw new Error('A check suite app slug must be supplied.')
