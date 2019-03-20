@@ -3,7 +3,13 @@ workflow "Wait for CI to Pass" {
   resolves = "Celebrate"
 }
 
-action "Wait for CI" {
+action "Wait for Appveyor" {
+  uses = "./.github/wait-ci"
+  args = "appveyor"
+  secrets = ["GITHUB_TOKEN"]
+}
+
+action "Wait for Travis" {
   uses = "./.github/wait-ci"
   args = "travis-ci"
   secrets = ["GITHUB_TOKEN"]
@@ -11,6 +17,6 @@ action "Wait for CI" {
 
 action "Celebrate" {
   uses = "docker://debian:stable-slim"
-  needs = "Wait for CI"
+  needs = ["Wait for Travis", "Wait for Appveyor"]
   runs = "echo Hooray!"
 }
