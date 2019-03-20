@@ -47,6 +47,7 @@ async function pollCheckSuites() {
           tools.exit.failure()
         case 'ACTION_REQUIRED':
         case 'NEUTRAL':
+        case 'CANCELLED':
           tools.exit.neutral()
         case 'SUCCESS':
           tools.exit.success()
