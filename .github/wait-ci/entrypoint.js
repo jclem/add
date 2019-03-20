@@ -59,8 +59,8 @@ async function pollCheckSuites() {
 
 function listCheckSuites() {
   return tools.github.graphql(
-    `query checkSuites($owner: String!, $name: String!, $expression: String!) {
-    repository(owner: $owner, name: $name) {
+    `query checkSuites($owner: String!, $repo: String!, $expression: String!) {
+    repository(owner: $owner, name: $repo) {
       object(expression: $expression) {
         ... on Commit {
           checkSuites(first: 100) {
@@ -79,7 +79,7 @@ function listCheckSuites() {
   }`,
     {
       ...tools.context.repo(),
-      expression: tools.context.payload.head,
+      expression: tools.context.payload.head_commit,
       headers: {
         accept: 'application/vnd.github.antiope-preview+json'
       }
