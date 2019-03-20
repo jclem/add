@@ -25,9 +25,13 @@ async function pollCheckSuites() {
   let completed = false
 
   pollLoop: while (!completed) {
-    const checkSuites = await listCheckSuites()
-
-    tools.log.debug(checkSuites)
+    const {
+      repository: {
+        object: {
+          checkSuites: {nodes: checkSuites}
+        }
+      }
+    } = await listCheckSuites()
 
     checkSuiteLoop: for (const checkSuite in checkSuites) {
       if (checkSuite.slug !== checkSuiteSlug) {
