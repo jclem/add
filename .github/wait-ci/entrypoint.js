@@ -22,9 +22,7 @@ async function main() {
 }
 
 async function pollCheckSuites() {
-  let completed = false
-
-  pollLoop: while (!completed) {
+  pollLoop: while (true) {
     const {
       repository: {
         object: {
@@ -33,8 +31,8 @@ async function pollCheckSuites() {
       }
     } = await listCheckSuites()
 
-    checkSuiteLoop: for (const checkSuite in checkSuites) {
-      if (checkSuite.slug !== checkSuiteSlug) {
+    checkSuiteLoop: for (const checkSuite of checkSuites) {
+      if (checkSuite.app.slug !== checkSuiteSlug) {
         continue checkSuiteLoop
       }
 
@@ -42,8 +40,6 @@ async function pollCheckSuites() {
         await wait(5000)
         continue pollLoop
       }
-
-      completed = true
 
       switch (checkSuite.conclusion) {
         case 'FAILURE':
@@ -60,6 +56,8 @@ async function pollCheckSuites() {
           )
       }
     }
+
+    await wait(5000)
   }
 }
 
