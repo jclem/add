@@ -23,6 +23,8 @@ async function main() {
 
 async function pollCheckSuites() {
   pollLoop: while (true) {
+    tools.log.info('Polling check suites.')
+
     const {
       repository: {
         object: {
@@ -36,10 +38,16 @@ async function pollCheckSuites() {
         continue checkSuiteLoop
       }
 
+      tools.log.info(`Found check suite, status: ${checkSuite.status}`)
+
       if (checkSuite.status !== 'COMPLETED') {
         await wait(5000)
         continue pollLoop
       }
+
+      tools.log.info(
+        `Check suite completed with conclusion ${checkSuite.conclusion}`
+      )
 
       switch (checkSuite.conclusion) {
         case 'FAILURE':
