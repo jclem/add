@@ -6,6 +6,7 @@ workflow "Wait for CI to Pass" {
 action "Wait for CI" {
   uses = "./.github/wait-ci"
   args = "travis-ci"
+  secrets = ["GITHUB_TOKEN"]
 }
 
 action "Celebrate" {
