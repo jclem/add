@@ -18,12 +18,7 @@ main()
   })
 
 async function main() {
-  pollCheckSuites()
-  const checkSuites = await listCheckSuites()
-
-  for (const checkSuite in checkSuites) {
-    if (checkSuite.slug !== tools.arguments[0]) continue
-  }
+  await pollCheckSuites()
 }
 
 async function pollCheckSuites() {
@@ -66,10 +61,10 @@ function listCheckSuites() {
   return tools.github.graphql(
     `query checkSuites($owner: String!, $name: String!, $expression: String!) {
     repository(owner: $owner, name: $name) {
-      object(expression: $ref) {
+      object(expression: $expression) {
         ... on Commit {
           checkSuites(first: 100) {
-            nodes: {
+            nodes {
               app {
                 slug
               }
