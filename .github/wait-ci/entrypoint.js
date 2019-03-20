@@ -25,7 +25,11 @@ async function pollCheckSuites() {
   let completed = false
 
   pollLoop: while (!completed) {
-    const checkSuites = await listCheckSuites()
+    const {status, data: checkSuites} = await listCheckSuites()
+
+    if (status !== 200) {
+      throw new Error(`Unexpected status from API: ${status}`)
+    }
 
     checkSuiteLoop: for (const checkSuite in checkSuites) {
       if (checkSuite.slug !== checkSuiteSlug) {
