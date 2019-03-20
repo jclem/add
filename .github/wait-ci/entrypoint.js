@@ -80,7 +80,7 @@ function listCheckSuites() {
   }`,
     {
       ...tools.context.repo(),
-      expression: tools.context.payload.head_commit,
+      expression: tools.context.payload.after,
       headers: {
         accept: 'application/vnd.github.antiope-preview+json'
       }
